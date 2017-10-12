@@ -1,0 +1,7 @@
+<launch>
+
+  <group ns="rviz_paths">
+    <node pkg="rviz_paths" name="rviz_paths_server" type="rviz_path_server_node.py"/>
+    <node pkg="rosbag" type="play" name='loader' args="$(find rviz_paths)/bag/test.bag -k"/>
+  </group>
+</launch>

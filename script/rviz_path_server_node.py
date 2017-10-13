@@ -15,7 +15,7 @@ from visualization_msgs.msg import (InteractiveMarker,
 from nav_msgs.msg import Path as NavPath
 
 
-def create_marker(path_msg, color_msg, description, path_id, width=0.1):
+def create_marker(path_msg, color_msg, description, path_id, width=0.1, delta_z=0.1):
     int_marker = InteractiveMarker()
     int_marker.header.frame_id = path_msg.header.frame_id
     int_marker.name = str(path_id)
@@ -25,6 +25,8 @@ def create_marker(path_msg, color_msg, description, path_id, width=0.1):
     line_marker.scale.x = width
     line_marker.color = color_msg
     line_marker.points = [p.pose.position for p in path_msg.poses]
+    for point in line_marker.points:
+        point.z += delta_z
     control = InteractiveMarkerControl()
     control.always_visible = True
     control.interaction_mode = InteractiveMarkerControl.MENU
@@ -63,6 +65,7 @@ class RvizPathServer(object):
         self.paths = {}
         rospy.Subscriber("paths", Paths, self.updatePaths, queue_size=1)
         self.pub = rospy.Publisher("selected_path", NavPath, queue_size=1)
+        self.delta_z = 0.1
 
         # self.add_marker(test_msg(), 0)
         # self.server.applyChanges()
@@ -72,7 +75,8 @@ class RvizPathServer(object):
     def add_marker(self, msg, path_id):
         print('Add path', path_id)
         menu, marker = create_marker(path_msg=msg.path, color_msg=msg.color,
-                                     description=msg.description, path_id=path_id)
+                                     description=msg.description, path_id=path_id,
+                                     delta_z=self.delta_z)
         self.server.insert(marker, ignore)
         menu.insert("FOLLOW", callback=self.goto(path_id))
         menu.apply(self.server, marker.name)

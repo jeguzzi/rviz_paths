@@ -84,9 +84,11 @@ def create_marker(path_msg, color_msg, description, path_id, width=0.1, delta_z=
 
     menu_handler = MenuHandler()
 
-    d = menu_handler.insert("Description")
+    # put all the information in the main menu
+
+    #d = menu_handler.insert("Description")
     for line in description:
-        menu_handler.insert(line, parent=d)
+        menu_handler.insert(line)#, parent=d)
 
     return menu_handler, int_marker
 

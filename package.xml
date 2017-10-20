@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package>
-  <name>rviz_paths</name>
+  <name>traversability_rviz_paths</name>
   <version>0.0.0</version>
-  <description>The rviz_paths package</description>
+  <description>The traversability_rviz_paths package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
   <!-- Example:  -->

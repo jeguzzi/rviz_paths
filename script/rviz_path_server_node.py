@@ -107,11 +107,10 @@ def test_msg():
     msg.description = ["A=1"]
     return msg
 
-
 class RvizPathServer(object):
     def __init__(self):
         super(RvizPathServer, self).__init__()
-        rospy.init_node("rviz_paths")
+        rospy.init_node("traversability_rviz_paths_node")
         self.server = InteractiveMarkerServer("paths")
         self.paths = {}
         self.delta_z = rospy.get_param('~offset', 0.15)

@@ -140,6 +140,10 @@ class RvizPathServer(object):
 
     def updatePaths(self, msg):
 
+        path_msg = NavPath()
+        path_msg.header.frame_id = 'map'
+        self.pub.publish(path_msg)
+
         self.server.clear()
 
         for i, m in enumerate(msg.paths):

@@ -6,7 +6,7 @@ import rospy
 from geometry_msgs.msg import PoseStamped
 from interactive_markers.interactive_marker_server import InteractiveMarkerServer
 from interactive_markers.menu_handler import MenuHandler
-from rviz_paths.msg import Path, Paths
+from traversability_rviz_paths.msg import Path, Paths
 from std_msgs.msg import ColorRGBA
 from visualization_msgs.msg import (InteractiveMarker,
                                     InteractiveMarkerControl,
@@ -84,9 +84,11 @@ def create_marker(path_msg, color_msg, description, path_id, width=0.1, delta_z=
 
     menu_handler = MenuHandler()
 
-    d = menu_handler.insert("Description")
+    # put all the information in the main menu
+
+    #d = menu_handler.insert("Description")
     for line in description:
-        menu_handler.insert(line, parent=d)
+        menu_handler.insert(line)#, parent=d)
 
     return menu_handler, int_marker
 
@@ -105,11 +107,10 @@ def test_msg():
     msg.description = ["A=1"]
     return msg
 
-
 class RvizPathServer(object):
     def __init__(self):
         super(RvizPathServer, self).__init__()
-        rospy.init_node("rviz_paths")
+        rospy.init_node("traversability_rviz_paths_node")
         self.server = InteractiveMarkerServer("paths")
         self.paths = {}
         self.delta_z = rospy.get_param('~offset', 0.15)
